@@ -10,12 +10,14 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.less$/,
+            test: /\.less$/,//当检测到less后缀时
+            //loader用于解析require里的内容
             use: ['style-loader', 'css-loader', 'less-loader']
         }]
     },
     resolve: {
         alias: {
+        //如果require以jquery开头，则去找这个文件,默认情况首先在node_modules里找，由于加了这个，则直接去写的目录下去找了。
             jquery: path.join(__dirname, 'js/lib/jquery.min.js'),
             mod: path.join(__dirname, 'js/mod'),
             less: path.join(__dirname, 'less')
@@ -23,6 +25,7 @@ module.exports = {
     },
     plugins:[
         new webpack.ProvidePlugin({
+        //把jquery这个模块提供到所有的模块里。
             $:'jquery'
         }),
     ]
