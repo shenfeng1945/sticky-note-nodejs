@@ -1,5 +1,4 @@
-var obj = require('../mod/b.js')
-var Toast = require('../mod/toast.js').Toast
-
-Toast('hello')
-
+require('less/index.less')
+require('../lib/icon.js')
+var a = require('../mod/event.js')
+console.log(typeof a);
