@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
+const path = require('path')
 const sequelize = new Sequelize(undefined, undefined, undefined, {
     host: 'localhost',
     dialect: 'sqlite',
     // SQLite only
-    storage: '../database/database.splite'
+    storage: path.join(__dirname,'../database/database.splite')
 });
 
 // Or you can simply use a connection uri
@@ -22,15 +23,22 @@ const sequelize = new Sequelize(undefined, undefined, undefined, {
 var Note = sequelize.define('note', {
     text: {
         type: Sequelize.STRING
-    },
-    star: {
-        type: Sequelize.Number
     }
 })
-Note.sync().then(() => {
-    // Table created
-    return User.create({
-      text: 'John',
-      star: 3,
-    });
-  });
+
+// Note.sync().then(() => {
+//     Note.create({ text: 'hello world'})
+// }).then(() => {
+//     Note.findAll({raw:true}).then(res => {
+//         console.log(res)
+//     })
+// })
+
+// Note.findAll({raw:true}).then(res=>{
+//     console.log(res)
+// })
+
+// Note.destroy({raw:true,where:{id:2}}).then(res=>{
+//     console.log(res)
+// })
+module.exports.Note = Note;
