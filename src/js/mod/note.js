@@ -1,14 +1,21 @@
 var Toast = require('./toast.js').Toast
-var Event = require('./event.js').Event
+var Event = require('./event.js')
+// var Vue = require('../lib/vue.min.js')
 
 function Note(opts) {
-
+    this.initOpts(opts);
+    this.createNote();
+    this.setLayout()
+    this.bindEvent();
 }
 Note.prototype = {
     defaultOpts: {
         id: '',
         $ct: $('#content').length > 0 ? $('#content') : $('body'), //容器
-        context: 'input here' //内容
+        context: 'input here', //内容
+        createdAt: '',
+        $ctPosi:null,
+        star:'',
     },
     initOpts: function (opts) {
         this.opts = $.extend({}, this.defaultOpts, opts || {})
@@ -29,21 +36,76 @@ Note.prototype = {
                        <div class="context">
                        </div>
                     </div>`
+        
         this.$note = $(tpl)
         this.$note.find('.context').text(this.opts.context);
+        this.$note.find('.time').text(this.opts.createdAt);
+        this.setStar(this.$note.find('.star'));
         this.opts.$ct.append(this.$note);
+        this.opts.$ctPosi = this.opts.$ct[0].getBoundingClientRect();
     },
-    setLayout:function(){
+    setStar:function($el){
+        var starGray = `<svg class="icon icon-18">
+                           <use xlink:href="#icon-star"></use>
+                        </svg>`
+        var starBlue = `<svg class="icon icon-18">
+                         <use xlink:href="#icon-star-blue"></use>
+                        </svg>`
+        let star = +this.opts.star;
+        
+        // this.$note.find('.starts').append()
+    },
+    setLayout: function () {
         var self = this;
-        if(self.clk){
+        if (self.clk) {
             clearTimeout(self.clk)
         }
-        self.clk = setTimeout(function(){
+        self.clk = setTimeout(function () {
             Event.fire('waterfall')
-        },100)
+        }, 100)
     },
-    bindEvent:function(){
-        
+    bindEvent: function () {
+        var self = this,
+            $note = this.$note,
+            $noteHead = $note.find('.head-note'),
+            $noteCt = $note.find(),
+            $close = $note.find('.close');
+
+        $close.on('click', () => {
+            self.delete();
+        })
+        // $noteHead.on('mousedown', eDown => {
+        //     evtX = eDown.pageX;
+        //     evtY = eDown.pageY;
+        //     console.log(evtX,evtY,'down')
+        //     $noteHead.on('mousemove', mouseMove)
+        // })
+        // $noteHead.on('mouseup',()=>{
+        //     $noteHead.off('mousemove',mouseMove)
+        // })
+        // mouseMove = eMove => {
+        //     $note.css({
+        //       left:parseInt($note.css('left')) + eMove.pageX - evtX,
+        //       top:parseInt($note.css('top'))+ eMove.pageY - evtY
+        //     })
+        // }
+    },
+    delete: function () {
+        var self = this;
+        $.post('/api/note/delete', {
+                id: this.id
+            })
+            .done(ret => {
+                if (ret.status === 200) {
+                    Toast('delete success');
+                    self.$note.remove();
+                    Event.fire('waterfall')
+                } else {
+                    Toast(ret.errorMsg);
+                }
+            })
     }
-    
+
 }
+
+module.exports.Note = Note;

@@ -23,17 +23,22 @@ const sequelize = new Sequelize(undefined, undefined, undefined, {
 var Note = sequelize.define('note', {
     text: {
         type: Sequelize.STRING
+    },
+    star:{
+        type:Sequelize.STRING
     }
 })
 
+// for(let i=0;i<5;i++){
+
 // Note.sync().then(() => {
-//     Note.create({ text: 'hello world'})
+//     Note.create({ text: 'hello world',star:'4'})
 // }).then(() => {
 //     Note.findAll({raw:true}).then(res => {
 //         console.log(res)
 //     })
 // })
-
+// }
 // Note.findAll({raw:true}).then(res=>{
 //     console.log(res)
 // })
@@ -41,4 +46,4 @@ var Note = sequelize.define('note', {
 // Note.destroy({raw:true,where:{id:2}}).then(res=>{
 //     console.log(res)
 // })
-module.exports.Note = Note;
+module.exports = Note;

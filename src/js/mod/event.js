@@ -10,7 +10,7 @@ var EventCenter = function(){
         if (!events[evt]) {
             return
         }
-        events.evt.forEach(item => item.handler(args))
+        events[evt].forEach(item => item.handler(args))
     }
     return {on,fire}
 }();
