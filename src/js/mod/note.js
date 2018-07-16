@@ -35,6 +35,9 @@ Note.prototype = {
                        </div>
                        <div class="context">
                        </div>
+                       <div class="starts">
+                       </div>
+                       <div class="finish">已完成</div>
                     </div>`
         
         this.$note = $(tpl)
@@ -52,8 +55,12 @@ Note.prototype = {
                          <use xlink:href="#icon-star-blue"></use>
                         </svg>`
         let star = +this.opts.star;
-        
-        // this.$note.find('.starts').append()
+        for(var i=0;i<star;i++){
+          this.$note.find('.starts').append(starBlue)
+        }
+        for(var i=0;i<5-star;i++){
+          this.$note.find('.starts').append(starGray)
+        }
     },
     setLayout: function () {
         var self = this;

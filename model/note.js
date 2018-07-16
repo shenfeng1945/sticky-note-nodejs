@@ -30,7 +30,6 @@ var Note = sequelize.define('note', {
 })
 
 // for(let i=0;i<5;i++){
-
 // Note.sync().then(() => {
 //     Note.create({ text: 'hello world',star:'4'})
 // }).then(() => {
