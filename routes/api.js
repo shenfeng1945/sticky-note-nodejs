@@ -17,7 +17,17 @@ router.get('/notes',(req,res,next)=>{
     }).catch(()=>res.send({status:404,errorMsg:'数据库异常'}))
 })
 
-router.post('/note/delete',(req,res,next)=>{
+router.post('/notes/editStar',(req,res,next)=>{
+  var noteId =req.body.id;
+  var star = req.body.star;
+  Note.update({star},{where:{id:noteId}}).then(lists=>{
+      res.send({stauts:200})
+  }).catch(()=>{
+      res.send({status:400,errorMsg:'数据库异常或者你没有权限'})
+  })
+})
+
+router.post('/notes/delete',(req,res,next)=>{
     var noteId = req.body.id
     Note.destroy({where:{id:noteId}}).then(deleteLen=>{
         if(deleteLen === 0){

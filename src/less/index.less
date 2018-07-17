@@ -17,7 +17,11 @@ a{
 }
 .icon{
     vertical-align: middle;
-    
+}
+.icon-star{
+    fill:#DBDBDB;
+}
+.icon.blue{
 }
 .icon-28{
     width:28px;
@@ -140,14 +144,70 @@ header{
             margin-top:14px;
             margin-bottom:18px;
         }
-        .starts{
+        .stars{
             padding-top:20px;
             border-top:1px solid #E6E6E6;
             display: flex;
+            // flex-direction: row-reverse;
             svg{
                 cursor: pointer;
                 margin-right:2px;
             }
+        }
+        .stars.star1{
+           &>svg:nth-child(1){
+             fill:#15D1E8;
+           }
+        }
+        .stars.star2{
+            &>svg:nth-child(1){
+              fill:#15D1E8;
+            }
+            &>svg:nth-child(2){
+              fill:#15D1E8;
+            }
+        }
+        .stars.star3{
+            &>svg:nth-child(1){
+              fill:#15D1E8;
+            }
+            &>svg:nth-child(2){
+              fill:#15D1E8;
+            }
+            &>svg:nth-child(3){
+              fill:#15D1E8;
+            }
+        }
+        .stars.star4{
+            &>svg:nth-child(1){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(2){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(3){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(4){
+                fill:#15D1E8;
+              }
+        }
+        .stars.star5{
+            &>svg:nth-child(1){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(2){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(3){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(4){
+                fill:#15D1E8;
+              }
+              &>svg:nth-child(5){
+                fill:#15D1E8;
+              }
         }
         .finish{
             font-size: 12px;
