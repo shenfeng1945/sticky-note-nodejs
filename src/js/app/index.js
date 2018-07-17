@@ -5,6 +5,7 @@ var Event = require('../mod/event.js')
 var WaterFall = require('mod/waterfall.js')
 var Vue = require('../lib/vue.min.js')
 var noteService = require('../mod/noteService');
+let Toast = require('../mod/toast').Toast;
 new Vue({
     el: '#app',
     data: {
@@ -20,30 +21,21 @@ new Vue({
     methods: {
         getNoteLists() {
             noteService.list().then(res => {
-                this.noteLists = res.data;
-                this.setStar(res.data)
+                // this.noteLists = res.data;
+                let data = res.data;
+                data.map(item=>{
+                    item.isEditing = false;
+                })
+                this.noteLists = data;
+                this.setStar(res.data);
             })
         },
-        // setStar(data){
-        //   data.forEach((note,i) =>{
-        //     let num = +note.star; 
-        //     let arr = [false,false,false,false,false];
-        //     arr.forEach((item,j)=>{
-        //        if(j<num){
-        //          arr[j] = true;
-        //        }else{
-        //          arr[j] = false;
-        //        }
-        //     })
-        //     this.noteLists[i].starArr = arr
-        //   })
-        // },
         changeStar(noteIndex,starIndex) {
-            // this.noteLists[noteIndex].star = ''+(starIndex+1)
-            // this.setStar(this.noteLists)
-            // console.log(this.noteLists[0].className)
-            console.log(this.noteLists[noteIndex])
-            noteService.editStar(this.noteLists[noteIndex].id,''+(starIndex+1))
+            noteService.editStar(this.noteLists[noteIndex].id,''+(starIndex+1)).then(res=>{
+              if(res.status === 200){
+                  this.getNoteLists()
+              }
+            })
         },
         setStar(data) {
             this.noteLists.forEach(item => {
@@ -69,7 +61,19 @@ new Vue({
                         break;
                 }
             })
+        },
+        editNote(item){
+          item.isEditing = true;
+        },
+        switchNote(item){
+          item.isEditing = false;
+        },
+        updateNote(item){
+          noteService.editNote(item.id,item.text).then(res=>{
+            Toast(res.msg)
+          })
         }
+
     }
 })
 NoteManager.load()

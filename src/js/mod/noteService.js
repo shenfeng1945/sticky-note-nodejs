@@ -8,5 +8,8 @@ class Note {
     static editStar(id,star){
         return fetch(url.starEdit,{id,star})
     }
+    static editNote(id,note){
+        return fetch(url.articleEdit,{id,note})
+    }
 }
 module.exports = Note;
