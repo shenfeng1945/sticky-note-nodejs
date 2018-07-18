@@ -1,7 +1,8 @@
 let url = {
     articleLists: '/api/notes',
     starEdit: '/api/notes/editStar',
-    articleEdit: '/api/notes/edit'
+    articleEdit: '/api/notes/edit',
+    addNote: '/api/notes/add',
 }
 let host = ''
 for(let key in url){

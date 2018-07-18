@@ -11,5 +11,8 @@ class Note {
     static editNote(id,note){
         return fetch(url.articleEdit,{id,note})
     }
+    static addNote(note,star){
+        return fetch(url.addNote,{note,star})
+    }
 }
 module.exports = Note;

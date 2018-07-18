@@ -11,6 +11,11 @@ new Vue({
     data: {
         noteLists: null,
         starLength: 5,
+        isAddNote:false,
+        addNotes:{
+            star:0,
+            text:'',
+        }
     },
     created() {
         this.getNoteLists()
@@ -72,6 +77,14 @@ new Vue({
           noteService.editNote(item.id,item.text).then(res=>{
             Toast(res.msg)
           })
+        },
+        addNote(){
+           console.log(this.addNotes.text)
+        },
+        openModel(){
+            this.isAddNote = true;
+            this.addNotes.text = '';
+            this.addNotes.star = 0;
         }
 
     },
