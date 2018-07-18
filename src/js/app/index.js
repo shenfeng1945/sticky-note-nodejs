@@ -74,6 +74,13 @@ new Vue({
           })
         }
 
+    },
+    directives:{
+        focus:{
+            inserted(el){
+                el.focus()
+            }
+        }
     }
 })
 NoteManager.load()

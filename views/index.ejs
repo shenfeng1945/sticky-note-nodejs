@@ -44,11 +44,13 @@
                 <div class="context">
                      <div v-if="!item.isEditing" @click="editNote(item)">
                         {{item.text}}
-                     </div>
-                     <input v-else @blur="switchNote(item)"
-                            @change="updateNote(item)"
+                     </div> 
+                      <textarea v-else v-focus
+                            @blur="switchNote(item)"
+                            @change="updateNote(item)" 
                             v-model="item.text"
-                            autofocus="autofocus">
+                            name="" id="" cols="30" rows="10">
+                       </textarea>
                 </div>
                 <div class="stars" :class="item.className">
                     <svg class="icon icon-18 icon-star" 
@@ -62,6 +64,7 @@
             </div>
         </div>
     </div>
+    <div class="toast">hello</div>
 </body>
 <script src="/js/index.js"></script>
 
