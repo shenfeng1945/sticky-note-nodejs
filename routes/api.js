@@ -37,6 +37,19 @@ router.post('/notes/edit',(req,res,next)=>{
     })
 })
 
+router.post('/notes/add',(req,res,next)=>{
+    if(!req.body.note){
+       return res.send({status:400,errorMsg:'内容不能为空'})
+    }
+    var note = req.body.note;
+    var star = req.body.star;
+    Note.create({text:note,star}).then(()=>{
+        res.send({status:200})
+    }).catch(()=>{
+        res.send({status:400,errorMsg:'数据库异常或者你没有权限'})
+    })
+})
+
 router.post('/notes/delete',(req,res,next)=>{
     var noteId = req.body.id
     Note.destroy({where:{id:noteId}}).then(deleteLen=>{
