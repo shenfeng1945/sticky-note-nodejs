@@ -32,18 +32,21 @@
             </div>
         </header>
         <div id="content" v-if="noteLists">
-            <div class="note" v-for="(item,noteIndex) in noteLists">
+            <div class="note" 
+                 v-for="(item,noteIndex) in noteLists"
+                 :style="{left:item.left;top:item.top;}"
+                 >
                 <div class="head-note"
                      @mousedown="mousedown($event)"
                      @mousemove="mousemove($event)"
                      @mouseup="mouseup()"
                      >
                     <div class="time">{{item.createdAt.split(' ')[0].replace(/\-/,'年').replace(/\-/,'月').replace(/$/,'日')}}</div>
-                    <div class="close">
-                        <svg class="icon icon-20">
-                            <use xlink:href="#icon-close"></use>
-                        </svg>
-                    </div>
+                </div>
+                <div class="close" @click="deleteNote(item.id)">
+                    <svg class="icon icon-20">
+                        <use xlink:href="#icon-close"></use>
+                    </svg>
                 </div>
                 <div class="context">
                     <div v-if="!item.isEditing" @click="editNote(item)">

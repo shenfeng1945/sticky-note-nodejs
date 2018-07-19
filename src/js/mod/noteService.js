@@ -14,5 +14,8 @@ class Note {
     static addNote(note,star){
         return fetch(url.addNote,{note,star})
     }
+    static deleteNote(id){
+        return fetch(url.deleteNote,{id})
+    }
 }
 module.exports = Note;

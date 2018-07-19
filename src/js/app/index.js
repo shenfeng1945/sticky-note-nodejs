@@ -33,6 +33,8 @@ new Vue({
                 let data = res.data;
                 data.map(item => {
                     item.isEditing = false;
+                    item.left = 0;
+                    item.top = 0;
                 })
                 this.noteLists = data;
                 this.setStar(res.data);
@@ -104,11 +106,19 @@ new Vue({
         },
         mousemove(e){
           if(this.isNoteMove){
-        //   console.log([e.clientX,e.clientY],'move')
+          console.log([e.clientX,e.clientY],'move')
           }
         },
         mouseup(){
           this.isNoteMove = false;
+        },
+        deleteNote(id){
+           noteService.deleteNote(id).then(res=>{
+               if(res.status === 200){
+                   Toast('删除成功!')
+                   this.getNoteLists();
+               }
+           })
         }
 
     },
