@@ -34,11 +34,11 @@
         <div id="content" v-if="noteLists">
             <div class="note" 
                  v-for="(item,noteIndex) in noteLists"
-                 :style="{left:item.left;top:item.top;}"
+                 :style="{left:item.left+'px',top:item.top+'px'}"
                  >
                 <div class="head-note"
-                     @mousedown="mousedown($event)"
-                     @mousemove="mousemove($event)"
+                     @mousedown="mousedown($event,item)"
+                     @mousemove="mousemove($event,item)"
                      @mouseup="mouseup()"
                      >
                     <div class="time">{{item.createdAt.split(' ')[0].replace(/\-/,'年').replace(/\-/,'月').replace(/$/,'日')}}</div>

@@ -23,6 +23,9 @@ new Vue({
     created() {
         this.getNoteLists()
     },
+    mounted(){
+      console.log(document.body)
+    },
     computed: {
 
     },
@@ -100,13 +103,14 @@ new Vue({
             this.addNotes.text = '';
             this.addNotes.star = 0;
         },
-        mousedown(e){
+        mousedown(e,item){
           this.isNoteMove = true;
-          this.curClient = [e.clientX,e.clientY];
+          this.curClient = [e.clientX-item.left,e.clientY-item.top];
         },
-        mousemove(e){
+        mousemove(e,item){
           if(this.isNoteMove){
-          console.log([e.clientX,e.clientY],'move')
+             item.left = e.clientX - this.curClient[0];
+             item.top = e.clientY - this.curClient[1];
           }
         },
         mouseup(){
@@ -127,7 +131,7 @@ new Vue({
             inserted(el) {
                 el.focus()
             }
-        }
+        },
     }
 })
 // NoteManager.load()
