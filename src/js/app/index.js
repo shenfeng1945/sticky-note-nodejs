@@ -11,11 +11,14 @@ new Vue({
     data: {
         noteLists: null,
         starLength: 5,
-        isAddNote:false,
-        addNotes:{
-            star:0,
-            text:'',
-        }
+        isAddNote: false,
+        addNotes: {
+            star: 0,
+            text: '',
+        },
+        isNoteMove:false,
+        curClient:[0,0],
+        moveClient:[0,0],
     },
     created() {
         this.getNoteLists()
@@ -28,18 +31,18 @@ new Vue({
             noteService.list().then(res => {
                 // this.noteLists = res.data;
                 let data = res.data;
-                data.map(item=>{
+                data.map(item => {
                     item.isEditing = false;
                 })
                 this.noteLists = data;
                 this.setStar(res.data);
             })
         },
-        changeStar(noteIndex,starIndex) {
-            noteService.editStar(this.noteLists[noteIndex].id,''+(starIndex+1)).then(res=>{
-              if(res.status === 200){
-                  this.getNoteLists()
-              }
+        changeStar(noteIndex, starIndex) {
+            noteService.editStar(this.noteLists[noteIndex].id, '' + (starIndex + 1)).then(res => {
+                if (res.status === 200) {
+                    this.getNoteLists()
+                }
             })
         },
         setStar(data) {
@@ -67,37 +70,58 @@ new Vue({
                 }
             })
         },
-        editNote(item){
-          item.isEditing = true;
+        editNote(item) {
+            item.isEditing = true;
         },
-        switchNote(item){
-          item.isEditing = false;
+        switchNote(item) {
+            item.isEditing = false;
         },
-        updateNote(item){
-          noteService.editNote(item.id,item.text).then(res=>{
-            Toast(res.msg)
-          })
+        updateNote(item) {
+            noteService.editNote(item.id, item.text).then(res => {
+                Toast(res.msg)
+            })
         },
-        addNote(){
-           console.log(this.addNotes.text)
+        addNote() {
+            if (!this.addNotes.text) {
+                Toast('内容不可为空')
+                return;
+            }
+            noteService.addNote(this.addNotes.text, this.addNotes.star + '').then(res => {
+                if (res.status === 200) {
+                    this.getNoteLists();
+                    this.closeModel();
+                }
+            })
         },
-        openModel(){
-            this.isAddNote = true;
+        closeModel() {
+            this.isAddNote = false;
             this.addNotes.text = '';
             this.addNotes.star = 0;
+        },
+        mousedown(e){
+          this.isNoteMove = true;
+          this.curClient = [e.clientX,e.clientY];
+        },
+        mousemove(e){
+          if(this.isNoteMove){
+        //   console.log([e.clientX,e.clientY],'move')
+          }
+        },
+        mouseup(){
+          this.isNoteMove = false;
         }
 
     },
-    directives:{
-        focus:{
-            inserted(el){
+    directives: {
+        focus: {
+            inserted(el) {
                 el.focus()
             }
         }
     }
 })
-NoteManager.load()
+// NoteManager.load()
 // WaterFall.init($('#content'))
-Event.on('waterfall', () => {
-    WaterFall.init($('#content'))
-})
+// Event.on('waterfall', () => {
+//     WaterFall.init($('#content'))
+// })
