@@ -35,6 +35,7 @@
             <div class="note" 
                  v-for="(item,noteIndex) in noteLists"
                  :style="{left:item.left+'px',top:item.top+'px'}"
+                 :class="{active:!isNoteMove}"
                  >
                 <div class="head-note"
                      @mousedown="mousedown($event,item)"

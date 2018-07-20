@@ -6,7 +6,7 @@ var WaterFall = require('mod/waterfall.js')
 var Vue = require('../lib/vue.min.js')
 var noteService = require('../mod/noteService');
 let Toast = require('../mod/toast').Toast;
-new Vue({
+let vue = new Vue({
     el: '#app',
     data: {
         noteLists: null,
@@ -19,12 +19,13 @@ new Vue({
         isNoteMove:false,
         curClient:[0,0],
         moveClient:[0,0],
+        element:null,
     },
     created() {
-        this.getNoteLists()
+        this.getNoteLists();
     },
     mounted(){
-    //    WaterFall.init($('body #content'))
+    
     },
     computed: {
 
@@ -41,6 +42,9 @@ new Vue({
                 })
                 this.noteLists = data;
                 this.setStar(res.data);
+                setTimeout(()=>{
+                    this.doWaterFall();
+                  },0)
             })
         },
         changeStar(noteIndex, starIndex) {
@@ -123,6 +127,16 @@ new Vue({
                    this.getNoteLists();
                }
            })
+        },
+        initNoteStyle(el){
+                Array.from(el.children).forEach((item,i)=>{
+                   this.noteLists[i].left = parseInt(item.style.getPropertyValue('left'))
+                   this.noteLists[i].top = parseInt(item.style.getPropertyValue('top'))
+                })
+        },
+        doWaterFall(){
+            WaterFall.init(this.element);
+            this.initNoteStyle(this.element);
         }
 
     },
@@ -134,7 +148,13 @@ new Vue({
         },
         waterfall:{
             inserted(el){
-              WaterFall.init(el)
+              WaterFall.init(el);
+              vue.initNoteStyle(el);
+              vue.element = el;
+              window.onresize = ()=>{
+                WaterFall.init(vue.element);
+                vue.initNoteStyle(vue.element);
+              }
             }
         }
     }
