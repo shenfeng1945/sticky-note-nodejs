@@ -24,7 +24,7 @@ new Vue({
         this.getNoteLists()
     },
     mounted(){
-      console.log(document.body)
+    //    WaterFall.init($('body #content'))
     },
     computed: {
 
@@ -132,6 +132,11 @@ new Vue({
                 el.focus()
             }
         },
+        waterfall:{
+            inserted(el){
+              WaterFall.init(el)
+            }
+        }
     }
 })
 // NoteManager.load()
