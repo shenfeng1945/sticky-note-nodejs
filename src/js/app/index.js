@@ -45,6 +45,18 @@ let vue = new Vue({
             noteService.list().then(res => {
                 res.data = res.data.filter(item=>item.finish)
                 this.setNoteAttri(res);
+                // this.noteLists = res.data;
+                let data = res.data;
+                data.map(item => {
+                    item.isEditing = false;
+                    item.left = 0;
+                    item.top = 0;
+                })
+                this.noteLists = data;
+                this.setStar(res.data);
+                setTimeout(()=>{
+                    this.doWaterFall();
+                  },0)
             })
         },
         setNoteAttri(res){
