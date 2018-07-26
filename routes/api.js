@@ -37,13 +37,25 @@ router.post('/notes/edit',(req,res,next)=>{
     })
 })
 
+router.post('/notes/finish',(req,res,next)=>{
+    var noteId = req.body.id;
+    var finish = req.body.finish;
+    console.log(noteId,finish,'hello')
+    Note.update({finish},{where:{id:noteId}}).then(lists=>{
+       res.send({status:200,msg:'修改成功'})
+    }).catch(_=>{
+       res.send({status:400,errorMsg:'数据库异常或者你没有权限'})
+    })
+})
+
 router.post('/notes/add',(req,res,next)=>{
     if(!req.body.note){
        return res.send({status:400,errorMsg:'内容不能为空'})
     }
     var note = req.body.note;
     var star = req.body.star;
-    Note.create({text:note,star}).then(()=>{
+    var finish = req.body.finish;
+    Note.create({text:note,star,finish}).then(()=>{
         res.send({status:200})
     }).catch(()=>{
         res.send({status:400,errorMsg:'数据库异常或者你没有权限'})

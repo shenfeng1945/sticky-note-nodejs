@@ -4,7 +4,7 @@ var WaterFall = (function () {
 
     function render($c) {
         //container
-        $ct = $c
+        $ct = $($c)
         //note list ----nodelist
         $item = $ct.children()
         let noteWidth = $item.outerWidth(true) //为true，margin也计算在内
@@ -30,9 +30,9 @@ var WaterFall = (function () {
             colSumHeight[idx] = $cur.outerHeight(true) + colSumHeight[idx]
         })
     }
-    $(window).on('resize', () => {
-        render($('#content'))
-    })
+    // $(window).on('resize', () => {
+    //     render($('#content'))
+    // })
     return {
         init: render
     }

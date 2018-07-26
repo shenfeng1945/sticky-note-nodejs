@@ -4,7 +4,7 @@ const sequelize = new Sequelize(undefined, undefined, undefined, {
     host: 'localhost',
     dialect: 'sqlite',
     // SQLite only
-    storage: path.join(__dirname,'../database/database.splite')
+    storage: path.join(__dirname,'../database/database1.splite')
 });
 
 // Or you can simply use a connection uri
@@ -26,12 +26,15 @@ var Note = sequelize.define('note', {
     },
     star:{
         type:Sequelize.STRING
+    },
+    finish:{
+        type:Sequelize.BOOLEAN
     }
 })
 
 // for(let i=0;i<5;i++){
 // Note.sync().then(() => {
-//     Note.create({ text: 'hello world',star:'4'})
+//     Note.create({ text: 'hello world',star:'4',finish:false})
 // }).then(() => {
 //     Note.findAll({raw:true}).then(res => {
 //         console.log(res)

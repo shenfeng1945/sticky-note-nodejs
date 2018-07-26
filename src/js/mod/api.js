@@ -3,7 +3,8 @@ let url = {
     starEdit: '/api/notes/editStar',
     articleEdit: '/api/notes/edit',
     addNote: '/api/notes/add',
-    deleteNote:'/api/notes/delete'
+    deleteNote:'/api/notes/delete',
+    editFinish: '/api/notes/finish',
 }
 let host = ''
 for(let key in url){
