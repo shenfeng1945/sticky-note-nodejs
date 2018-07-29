@@ -21,8 +21,8 @@ let vue = new Vue({
         moveClient: [0, 0],
         element: null,
         nowRank: 'all',
-        sortRank: {direc:'+',kind:'time'},
-        isShowDropDown:false,
+        sortRank: { direc: '+', kind: 'time' },
+        isShowDropDown: false,
     },
     created() {
         this.getNoteLists();
@@ -40,10 +40,10 @@ let vue = new Vue({
                 this.setNoteAttri(res);
             })
         },
-        getNoteDoneLists(){
+        getNoteDoneLists() {
             this.nowRank = 'haveDone';
             noteService.list().then(res => {
-                res.data = res.data.filter(item=>item.finish)
+                res.data = res.data.filter(item => item.finish)
                 this.setNoteAttri(res);
                 // this.noteLists = res.data;
                 let data = res.data;
@@ -54,12 +54,12 @@ let vue = new Vue({
                 })
                 this.noteLists = data;
                 this.setStar(res.data);
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.doWaterFall();
-                  },0)
+                }, 0)
             })
         },
-        setNoteAttri(res){
+        setNoteAttri(res) {
             let data = res.data;
             data.map(item => {
                 item.isEditing = false;
@@ -77,6 +77,8 @@ let vue = new Vue({
             noteService.editStar(this.noteLists[noteIndex].id, '' + (starIndex + 1)).then(res => {
                 if (res.status === 200) {
                     this.getNoteLists()
+                } else if (res.status === 400) {
+                    Toast(res.errorMsg);
                 }
             })
         },
@@ -113,18 +115,25 @@ let vue = new Vue({
         },
         updateNote(item) {
             noteService.editNote(item.id, item.text).then(res => {
-                Toast(res.msg)
+                if(res.status === 200){
+                  Toast(res.msg)
+                }else if(res.status === 400){
+                  Toast(res.errorMsg);
+                }
             })
         },
         addNote() {
             if (!this.addNotes.text) {
-                Toast('内容不可为空')
+                Toast('内容不可为空');
                 return;
             }
             noteService.addNote(this.addNotes.text, this.addNotes.star + '', false).then(res => {
                 if (res.status === 200) {
                     this.getNoteLists();
                     this.closeModel();
+                } else if (res.status === 400) {
+                    Toast(res.errorMsg);
+                    return;
                 }
             })
         },
@@ -153,6 +162,8 @@ let vue = new Vue({
                 if (res.status === 200) {
                     Toast('删除成功!')
                     this.getNoteLists();
+                } else if (res.status === 400) {
+                    Toast(res.errorMsg);
                 }
             })
         },
@@ -167,35 +178,39 @@ let vue = new Vue({
             this.initNoteStyle(this.element);
         },
         finish(item) {
-            item.finish = !item.finish;
-            noteService.editFinish(item.id, item.finish).then(res => {
+            noteService.editFinish(item.id, !item.finish).then(res => {
+                if (res.status === 200) {
+                    item.finish = !item.finish;
+                } else if (res.status === 400) {
+                    Toast(res.errorMsg)
+                }
             })
-            if(this.nowRank === 'haveDone'){
+            if (this.nowRank === 'haveDone') {
                 this.getNoteDoneLists();
             }
         },
-        showDropDown(){
-           this.isShowDropDown = !this.isShowDropDown;
+        showDropDown() {
+            this.isShowDropDown = !this.isShowDropDown;
         },
-        getNoteSort(){
-            if(this.nowRank !=='sort'){
-               this.nowRank = 'sort';
-            }else{
-              this.sortRank.direc = this.sortRank.direc==='+'?'-':'+';
+        getNoteSort() {
+            if (this.nowRank !== 'sort') {
+                this.nowRank = 'sort';
+            } else {
+                this.sortRank.direc = this.sortRank.direc === '+' ? '-' : '+';
             }
             this.setSortRank();
         },
-        setSortRankKind(string){
+        setSortRankKind(string) {
             this.isShowDropDown = false;
             this.sortRank.kind = string;
         },
-        setSortRank(){
-           let dirc = this.sortRank.direc;
-           let kind = this.sortRank.kind;
-           let dataList = this.noteLists;
-           if(kind === 'time'){
-           }else if(kind === 'star'){
-           }
+        setSortRank() {
+            let dirc = this.sortRank.direc;
+            let kind = this.sortRank.kind;
+            let dataList = this.noteLists;
+            if (kind === 'time') {
+            } else if (kind === 'star') {
+            }
         }
 
     },
