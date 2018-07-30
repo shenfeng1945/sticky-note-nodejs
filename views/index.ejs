@@ -8,14 +8,14 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" @click="closeDropDown($event)">
         <header>
             <div class="header">
                 <div class="title">Daskys
                     <span>在线便签</span>
                 </div>
                 <ul>
-                    <li :class="{active:nowRank === 'all'}" @click="getNoteLists()">全部</li>
+                    <li :class="{active:nowRank === 'all'}" @click="getAllNoteLists()">全部</li>
                     <li :class="{active:nowRank === 'haveDone'}" @click="getNoteDoneLists()">已完成</li>
                     <li :class="{active:nowRank === 'sort'}" class="last">
                         <span @click="getNoteSort()">{{sortRank.direc==='+'?'正序':'反序'}}</span>
@@ -82,11 +82,11 @@
             </div>
         </div>
         <div class="bottom-icon">
-            <div class="up">
+            <!-- <div class="up">
                 <svg class="icon icon-36">
                     <use xlink:href="#icon-up"></use>
                 </svg>
-            </div>
+            </div> -->
             <div class="add" @click="isAddNote = true">
                 <svg class="icon icon-36">
                     <use xlink:href="#icon-add"></use>

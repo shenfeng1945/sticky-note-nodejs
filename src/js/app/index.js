@@ -6,6 +6,7 @@ var WaterFall = require('mod/waterfall.js')
 var Vue = require('../lib/vue.min.js')
 var noteService = require('../mod/noteService');
 let Toast = require('../mod/toast').Toast;
+let sortRank = require('../mod/sort.js').sortRank;
 let vue = new Vue({
     el: '#app',
     data: {
@@ -26,6 +27,7 @@ let vue = new Vue({
     },
     created() {
         this.getNoteLists();
+        this.getLocal();
     },
     mounted() {
 
@@ -34,10 +36,28 @@ let vue = new Vue({
 
     },
     methods: {
-        getNoteLists() {
+        setLocal(){
+          localStorage.setItem('sort',JSON.stringify(this.sortRank));
+        },
+        getLocal(){
+           if(!localStorage.getItem('sort')){
+             this.setLocal();
+           }else{
+             this.sortRank = JSON.parse(localStorage.getItem('sort'));
+           }
+        //    this.setSortRank()
+        },
+        getAllNoteLists() {
             this.nowRank = 'all';
+            this.getNoteLists()
+        },
+        getNoteLists(){
             noteService.list().then(res => {
                 this.setNoteAttri(res);
+                if(this.nowRank === 'sort'){
+                  this.setLocal();
+                  this.setSortRank();
+                }
             })
         },
         getNoteDoneLists() {
@@ -57,6 +77,7 @@ let vue = new Vue({
                 setTimeout(() => {
                     this.doWaterFall();
                 }, 0)
+                this.setSortRank()
             })
         },
         setNoteAttri(res) {
@@ -132,7 +153,7 @@ let vue = new Vue({
                     this.getNoteLists();
                     this.closeModel();
                 } else if (res.status === 400) {
-                    Toast(res.errorMsg);
+                    Toast(res.errorMsg,1000,'error');
                     return;
                 }
             })
@@ -198,21 +219,34 @@ let vue = new Vue({
             } else {
                 this.sortRank.direc = this.sortRank.direc === '+' ? '-' : '+';
             }
-            this.setSortRank();
+            noteService.list().then(res => {
+              this.setNoteAttri(res);
+              this.setLocal();
+              this.setSortRank();
+              this.doWaterFall();
+            })
         },
         setSortRankKind(string) {
             this.isShowDropDown = false;
             this.sortRank.kind = string;
+            this.setLocal();
+            if(this.nowRank === 'sort'){
+              this.setSortRank();
+              this.doWaterFall();
+            }
         },
         setSortRank() {
-            let dirc = this.sortRank.direc;
-            let kind = this.sortRank.kind;
-            let dataList = this.noteLists;
-            if (kind === 'time') {
-            } else if (kind === 'star') {
+          this.noteLists = sortRank.replaceArray(this.noteLists,this.sortRank)
+        },
+        closeDropDown(e){
+            if(e.target.className === 'odd'){
+                return;
+            }
+            if(this.isShowDropDown){
+              this.isShowDropDown = false;
             }
         }
-
+       
     },
     directives: {
         focus: {

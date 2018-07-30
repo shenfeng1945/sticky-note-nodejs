@@ -1,15 +1,20 @@
 require('less/toast.less')
-function toast(msg, time) {
+function toast(msg, time,status) {
     this.msg = msg
     this.showTime = time||1000
-    this.createEl()
+    this.createEl(status)
     this.showToast()
 }
 toast.prototype = {
-    createEl: function(){
-        var tpl = `<div class="toast">${this.msg}</div>`;
-        console.log(this);
-        
+    createEl: function(status){
+        var tpl = '';
+        if(status === 'success'){
+          tpl = `<div class="toast">${this.msg}</div>`;
+        }else if(status === 'error'){
+          tpl = `<div class="toast error">${this.msg}</div>`;
+        }else{
+          tpl = `<div class="toast">${this.msg}</div>`;
+        }
         this.$toast = $(tpl);
         $('body').append(this.$toast);
     },
@@ -22,8 +27,8 @@ toast.prototype = {
     }
 }
 
-function Toast(msg, time) {
-    return new toast(msg, time);
+function Toast(msg, time, status) {
+    return new toast(msg, time, status);
 }
 
 module.exports.Toast = Toast;
