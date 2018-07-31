@@ -43,7 +43,8 @@ router.get('/github/callback',
             avatar: req.user._json.avatar_url,
             provider: req.user.provider
         };
-        res.redirect('/');
+        res.redirect('http://127.0.0.1:8080');
+        // res.redirect('/');
     });
 
 
