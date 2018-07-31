@@ -11,6 +11,7 @@ var Note = require('../model/note')
 
 // get notes list
 router.get('/notes',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     // var opts = {raw:true}
     var opts = {where:{id:0}}
     if(req.session && req.session.user){
@@ -23,6 +24,7 @@ router.get('/notes',(req,res,next)=>{
 })
 //修改星星等级
 router.post('/notes/editStar',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     if(!req.session || !req.session.user){
         return res.send({status:400,errorMsg:'请先登录'})
       }
@@ -37,6 +39,7 @@ router.post('/notes/editStar',(req,res,next)=>{
 })
 //修改内容
 router.post('/notes/edit',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     if(!req.session || !req.session.user){
         return res.send({status:400,errorMsg:'请先登录'})
       }
@@ -51,6 +54,7 @@ router.post('/notes/edit',(req,res,next)=>{
 })
 
 router.post('/notes/finish',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     if(!req.session || !req.session.user){
         return res.send({status:400,errorMsg:'请先登录'})
       }
@@ -66,6 +70,7 @@ router.post('/notes/finish',(req,res,next)=>{
 })
 
 router.post('/notes/add',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     if(!req.session || !req.session.user){
        return res.send({status:400,errorMsg:'请先登录'})
     }
@@ -81,6 +86,7 @@ router.post('/notes/add',(req,res,next)=>{
 })
 
 router.post('/notes/delete',(req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin','*')
     if(!req.session || !req.session.user){
         return res.send({status:400,errorMsg:'请先登录'})
       }
