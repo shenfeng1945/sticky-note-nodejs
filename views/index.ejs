@@ -6,9 +6,15 @@
         Express
     </title>
 </head>
+<link rel="stylesheet" href="/css/index.css">
+<style>
+  [v-cloak] {
+  display: none;
+}
+</style>
 
 <body>
-    <div id="app" @click="closeDropDown($event)">
+    <div id="app" @click="closeDropDown($event)" v-cloak>
         <header>
             <div class="header">
                 <div class="title">Daskys
@@ -33,11 +39,11 @@
                             <%= user.username %>
                         </span>
                         <span class="line"> | </span>
-                        <a class="logout" href="/auth/logout">注销</a>
+                        <a class="logout" href="/sticky/auth/logout">注销</a>
                     </div>
                     <% }else{ %>
                         <div class="github">
-                            <a href="/auth/github">
+                            <a href="/sticky/auth/github">
                                 <svg class="icon icon-28" style="fill:white;">
                                     <use xlink:href="#icon-github"></use>
                                 </svg>
@@ -121,5 +127,4 @@
     </div>
 </body>
 <script src="/js/index.js"></script>
-
 </html>

@@ -1,4 +1,4 @@
-require('less/index.less')
+// require('less/index.less')
 require('../lib/icon.js')
 var NoteManager = require('../mod/note-manager.js').NoteManager
 var Event = require('../mod/event.js')

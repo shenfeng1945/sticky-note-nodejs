@@ -31,10 +31,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //路由
-app.use('/', index);
-app.use('/api', api);//ajax请求
-app.use('/users', users);
-app.use('/auth',auth)
+app.use('/sticky/', index);
+app.use('/sticky/api', api);//ajax请求
+app.use('/sticky/users', users);
+app.use('/sticky/auth',auth)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

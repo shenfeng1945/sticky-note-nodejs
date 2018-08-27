@@ -71,6 +71,7 @@ router.post('/notes/finish',(req,res,next)=>{
 
 router.post('/notes/add',(req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*')
+    res.setHeader('Access-Control-Request-Method','OPTIONS,PUT,GET,POST')
     if(!req.session || !req.session.user){
        return res.send({status:400,errorMsg:'请先登录'})
     }
